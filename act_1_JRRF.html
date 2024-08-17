@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Script SQL</title>
+</head>
+
+<script>
+    const apellidosBrasileños = [
+    "Monteiro", "Goulart", "Brito", "Cavalcante", "Menezes", "Pinto", "Cunha", "Serra", "Carvalho", "Coelho",
+    "Dias", "Farias", "Ribeiro", "Cardoso", "Ramos", "Barbosa", "Ferreira", "Siqueira", "Magalhães", "Peixoto",
+    "Rezende", "Macedo", "Nogueira", "Campos", "Sampaio", "Teixeira", "Almeida", "Oliveira", "Lopes", "Pereira",
+    "Silva", "Santos", "Rodrigues", "Souza", "Costa", "Araujo", "Melo", "Gomes", "Nunes", "Freitas",
+    "Cruz", "Araújo", "Assis", "Pinto", "Vasconcelos", "Tavares", "Moura", "Fonseca", "Duarte", "Medeiros",
+    "Azevedo", "Castro", "Andrade", "Mendes", "Gonçalves", "Leal", "Borges", "Matos", "Barreto", "Santiago",
+    "Guerra", "Moreira", "França", "Vieira", "Xavier", "Cavalcanti", "Rezende", "Miranda", "Batista", "Lima",
+    "Correia", "Nóbrega", "Lemos", "Amorim", "Queiroz", "Furtado", "Amaral", "Rocha", "Neves", "Coutinho",
+    "Dantas", "Aguiar", "Tavares", "Ramos", "Pinheiro", "Lacerda", "Camargo", "Alves", "Figueiredo", "Bernardes"
+];
+
+const apellidosAfricanos = [
+    "Odinga", "Akintola", "Chiume", "Munyaneza", "Nyamweya", "Ekundayo", "Kenyatta", "Osei-Tutu", "Amadou", "Bakari",
+    "Dibango", "Nkrumah", "Makoni", "Njoku", "Ndaba", "Kagiso", "Obasanjo", "Lukhele", "Jalloh", "Nzima",
+    "Mugisha", "Ochieng", "Kalume", "Ntuli", "Sekou", "Akande", "Tshabalala", "Kalisa", "Adegoke", "Mbeki",
+    "Biko", "Chikezie", "Diallo", "Maseko", "Zuma", "Chikondi", "Baloyi", "Kamara", "Odum", "Acheampong",
+    "Nyoni", "Moyo", "Banda", "Onyango", "Ayodele", "Kagame", "Chilufya", "Dlamini", "Obi", "Matongo",
+    "Kwame", "Esang", "Wanjiru", "Katlego", "Juma", "Ngwenya", "Obiang", "Mandela", "Sankara", "Tembo",
+    "Akinyi", "Ouma", "Makena", "Amani", "Njie", "Adomako", "Ncube", "Adebayo", "Kamau", "Langa",
+    "Abiodun", "Olumide", "Katlego", "Mbatha", "Sibanda", "Adeola", "Kalisa", "Mutiso", "Moyo", "Ndlovu",
+    "Zuberi", "Toure", "Eze", "Nzinga", "Oluoch", "Kone", "Obi", "Mugabe", "Ndlovu", "Achebe"
+];
+
+const apellidosArgentinos = [
+    "Vázquez", "Bravo", "Cordero", "Durán", "Aguirre", "Rivas", "Ávila", "Rosales", "Cruz", "Delgado",
+    "Campos", "Montoya", "Salazar", "Paredes", "López", "Jiménez", "Soria", "Molina", "Ramos", "Ojeda",
+    "Navarro", "Burgos", "Ponce", "Méndez", "Guzmán", "Arce", "Funes", "Godoy", "Paz", "Esquivel",
+    "Medina", "Vega", "Álvarez", "Bustos", "Correa", "Varela", "Moya", "Silva", "Lucero", "Quiroga",
+    "Sánchez", "Ibáñez", "Castillo", "Cardozo", "Muñoz", "Rojas", "Cáceres", "Villalba", "Rossi", "Méndez",
+    "Arias", "Coronel", "Soto", "Páez", "Mansilla", "Montes", "Zárate", "Olivera", "Barrios", "Domínguez",
+    "Quiñones", "Almada", "Acuña", "Luna", "Campos", "Giménez", "Galván", "Peralta", "Franco", "Salinas",
+    "Maldonado", "Núñez", "Alarcón", "Espinoza", "Agüero", "Gómez", "Acevedo", "Serrano", "Aguilera", "Olivera",
+    "Pineda", "Benítez", "Vera", "Romero", "Morales", "Cabrera", "Almada", "Zúñiga", "Reyes", "Vargas"
+];
+
+
+
+
+
+    function guardar() {
+        var contenidoSQL = document.getElementById("resultado").innerHTML; // Obtener el contenido SQL generado
+        contenidoSQL = contenidoSQL.replace(/<br\s*\/?>/gi, '\n'); // Reemplazar <br> con \n
+        var nombreArchivo = "script_sql"; // Nombre del archivo sin la extensión .sql
+        var blob = new Blob([contenidoSQL], { type: 'text/sql' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = nombreArchivo + '.sql'; 
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    
+
+    function generar() {
+    var valoresSQL = [];
+    for (let index = 0; index < 20000; index++) {
+        var formattedIndex = String(index).padStart(5, '0');
+        var matricula = `'211${formattedIndex}'`;
+        var apellido1 = `'${apellidosBrasileños[Math.floor(Math.random() * apellidosBrasileños.length)]}'`;
+        var apellido2 = `'${apellidosAfricanos[Math.floor(Math.random() * apellidosAfricanos.length)]}'`;
+        var nombre1 = `'${apellidosArgentinos[Math.floor(Math.random() * apellidosArgentinos.length)]}'`;
+        var correo = `'A${formattedIndex}@uthermosillo.com.mx'`;
+        
+        // Concatenar los valores en un solo string
+        var valores = `(${matricula}, ${apellido1}, ${apellido2}, ${nombre1}, ${correo})`;
+        valoresSQL.push(valores);
+    }
+
+    // Generar la salida SQL en formato HTML
+    var salida = `
+        CREATE DATABASE IF NOT EXIST sistema_escolar; 
+        USE sistema_escolar;
+        CREATE TABLE IF NOT EXIST alumnos(matricula int UNIQUE, apellido1 VARCHAR(255) NOT NULL, apellido2 VARCHAR(255), nombres VARCHAR(255) NOT NULL, correo VARCHAR(255) NOT NULL UNIQUE);
+        INSERT INTO alumnos(matricula, apellido1, apellido2, nombres, correo) VALUES<br>
+        ${valoresSQL.join(",<br>")};
+    `;
+
+    document.getElementById("resultado").innerHTML = salida;
+}
+
+
+</script>
+
+<body>
+    <input type="button" value="Generar" onclick="generar()">   
+    <input type="button" value="Guardar SQL" onclick="guardar()">   
+    <p id="resultado"></p>
+
+
+   
+</body>
+</html>
